@@ -1,66 +1,65 @@
 package com.codeoftheweb.salvo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
-
 
 @Entity
-public class Ship {
+public class Salvo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private Long id;
-    private String type;
+    private long id;
+
     @ElementCollection
     @Column(name="locations")
     private List<String> locations;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gameplayerID")
     private GamePlayer gamePlayer;
 
+    private int turn;
 
-
-    public Ship() {}
-
-    public Ship(String type, List<String> locations) {
-        this.type = type;
+    public Salvo (Long id, List locations, int turn, GamePlayer gamePlayer){
+        this.id = id;
         this.locations = locations;
+        this.gamePlayer = gamePlayer;
     }
 
+    public Salvo(){}
 
-    public String getType() {
-        return type;
+    public long getId() {
+        return id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public List getLocations() {
+    public List<String> getLocations() {
         return locations;
     }
 
-    public void setLocations(List locations) {
+    public void setLocations(List<String> locations) {
         this.locations = locations;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public GamePlayer getGamePlayer() {
         return gamePlayer;
     }
 
-
-    @JsonIgnore
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
     }
 
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 }

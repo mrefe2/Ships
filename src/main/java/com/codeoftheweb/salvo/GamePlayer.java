@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,9 +30,12 @@ public class GamePlayer {
     private Player player;
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
-    private Set<Ship> ships;
+    private Set<Ship> ships = new HashSet<>();
 
-    public  GamePlayer(){}
+    @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
+    private Set<Salvo> salvos = new HashSet<>();
+
+
 
     public Set<Ship> getShips() {
         return ships;
@@ -46,12 +50,13 @@ public class GamePlayer {
         ship.setGamePlayer(this);
     }
 
+    public GamePlayer(){}
+
     public GamePlayer(LocalDateTime partida, Game game, Player player) {
         this.partida = partida;
         this.game = game;
         this.player = player;
     }
-
 
 
     @JsonIgnore
@@ -62,6 +67,7 @@ public class GamePlayer {
     public void setGame(Game game) {
         this.game = game;
     }
+
 
     public Player getPlayer() {
         return player;
@@ -87,5 +93,13 @@ public class GamePlayer {
 
 
 
+    public Set<Salvo> getSalvo() { return salvos; }
+
+    public void setSalvos (Set<Salvo> salvo) { this.salvos = salvo; }
+
+    public void addSalvo (Salvo salvo) {
+        salvos.add(salvo);
+        salvo.setGamePlayer(this);
+    }
 }
 

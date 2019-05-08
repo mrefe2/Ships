@@ -1,7 +1,10 @@
 var games;
+var ships;
+var players;
+var gamePlayers;
 
 function dataCall () {
-    fetch("http://localhost:8080/api/games", {
+    fetch("http://localhost:8080/api/game", {
         method: "GET"
     }).then(function (response) {
         if (response.ok) {
@@ -12,6 +15,7 @@ function dataCall () {
     }).then(function (json) {
 
         games = json;
+
         console.log(games);
         crearLista();
 
@@ -22,10 +26,15 @@ function dataCall () {
 }
 dataCall ();
 
+
+
 function crearLista() {
 
-    var partidas = games.map(game => `<li>${game.id}, ${game.created}</li>`).join("<br>");
-    document.getElementById("tabla").innerHTML = partidas;
-    console.log(partidas);
+    document.getElementById("ferTbody").innerHTML = games
+        .map(game => `<tr>
+                            <td>${game.id}</td>
+                            <td>${game.created}</td>
+                            <td>${game.gamePlayers.map(gp => gp.player.userName)}</td>
+                </tr>`
+        ).join("");
 }
-

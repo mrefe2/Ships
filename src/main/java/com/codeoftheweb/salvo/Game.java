@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,10 +17,12 @@ public class Game {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     private LocalDateTime fecha;
+
     @OneToMany (mappedBy="game", fetch=FetchType.EAGER)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
 
-    public Game() {    }
+
+    public Game() {}
 
     public Game(LocalDateTime fecha) {
         this.fecha = fecha;
@@ -40,6 +43,7 @@ public class Game {
         this.id = id;
     }
 
+    @JsonIgnore
     public Set<GamePlayer> getGamePlayers(){
         return this.gamePlayers;
     }
