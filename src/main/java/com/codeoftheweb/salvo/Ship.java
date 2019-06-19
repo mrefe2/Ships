@@ -16,14 +16,14 @@ public class Ship {
     @GenericGenerator(name = "native", strategy = "native")
     private Long id;
     private String type;
+
     @ElementCollection
     @Column(name="locations")
     private List<String> locations;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gameplayerID")
     private GamePlayer gamePlayer;
-
-
 
     public Ship() {}
 

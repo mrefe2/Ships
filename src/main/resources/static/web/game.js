@@ -5,3 +5,7 @@ var app = new Vue({
             letras: ["A","B","C","D","E","F","G","H","I","J"],
     }
     })
+
+function getNames() {
+    return
+}

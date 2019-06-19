@@ -6,10 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import static java.util.stream.Collectors.toList;
 
 
 @Entity
@@ -19,7 +16,7 @@ public class GamePlayer {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
-    private LocalDateTime partida;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="Juegos")
@@ -37,6 +34,16 @@ public class GamePlayer {
 
 
 
+
+
+    public GamePlayer(){}
+
+    public GamePlayer(Game game, Player player) {
+        this.game = game;
+        this.player = player;
+    }
+
+
     public Set<Ship> getShips() {
         return ships;
     }
@@ -50,12 +57,13 @@ public class GamePlayer {
         ship.setGamePlayer(this);
     }
 
-    public GamePlayer(){}
+    public Set<Salvo> getSalvos() { return salvos; }
 
-    public GamePlayer(LocalDateTime partida, Game game, Player player) {
-        this.partida = partida;
-        this.game = game;
-        this.player = player;
+    public void setSalvos(Set<Salvo> salvos) { this.salvos = salvos; }
+
+    public void addSalvo (Salvo salvo) {
+        salvos.add(salvo);
+        salvo.setGamePlayer(this);
     }
 
 
@@ -84,22 +92,7 @@ public class GamePlayer {
         this.id = id;
     }
 
-    public LocalDateTime getPartida() {
-        return partida;
-    }
-    public void setPartida(LocalDateTime partida) {
-        this.partida = partida;
-    }
 
 
-
-    public Set<Salvo> getSalvo() { return salvos; }
-
-    public void setSalvos (Set<Salvo> salvo) { this.salvos = salvo; }
-
-    public void addSalvo (Salvo salvo) {
-        salvos.add(salvo);
-        salvo.setGamePlayer(this);
-    }
 }
 
